@@ -3,6 +3,10 @@
 
 #include "TestActor.h"
 
+#if PLATFORM_ANDROID
+#include "ThirdParty/pugiXML/src/pugixml.hpp"
+#endif
+
 // Sets default values
 ATestActor::ATestActor()
 {
@@ -15,7 +19,13 @@ ATestActor::ATestActor()
 void ATestActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+#if PLATFORM_ANDROID
+	pugi::xml_document xml_doc{};
+	pugi::xml_parse_result xml_result {xml_doc.load_file("test.xml")};
+
+	//auto x = xml_result.description();
+#endif
 }
 
 // Called every frame
