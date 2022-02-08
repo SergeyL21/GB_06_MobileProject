@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class MobileProject : ModuleRules
@@ -14,11 +15,19 @@ public class MobileProject : ModuleRules
 		
 		if (Target.Platform == UnrealTargetPlatform.Android)
 		{
-			PublicAdditionalLibraries.Add(ModuleDirectory + "ThirdParty/pugiXML/pugixml.lib");
-			/*PublicAdditionalLibraries.AddRange(new string[]
+			string ThirdPartyLibsPath = Path.Combine(ModuleDirectory, "ThirdParty");
+			
+			PublicIncludePaths.AddRange(new string[]
 			{
-				System.IO.Path.Combine(ModuleDirectory, "ThirdParty", "pugiXML", "pugixml.lib")
-			});*/
+				Path.Combine(ThirdPartyLibsPath, "pugiXML", "src"),
+				Path.Combine(ThirdPartyLibsPath, "MyTestLib", "src")
+			});
+			
+			PublicAdditionalLibraries.AddRange(new string[]
+			{
+				Path.Combine(ThirdPartyLibsPath, "pugiXML", "pugixml.lib", "a"),
+				Path.Combine(ThirdPartyLibsPath, "MyTestLib", "MyTestLib.lib", "a")
+			});
 		}
 	}
 }

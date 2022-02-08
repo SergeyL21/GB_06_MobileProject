@@ -4,7 +4,8 @@
 #include "TestActor.h"
 
 #if PLATFORM_ANDROID
-#include "ThirdParty/pugiXML/src/pugixml.hpp"
+#include "MyTestLib.h"
+#include "pugixml.hpp"
 #endif
 
 // Sets default values
@@ -19,12 +20,21 @@ ATestActor::ATestActor()
 void ATestActor::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 #if PLATFORM_ANDROID
-	pugi::xml_document xml_doc{};
-	pugi::xml_parse_result xml_result {xml_doc.load_file("test.xml")};
+	// pugiXML lib test section
+	{
+		pugi::xml_document xml_doc{};
+		pugi::xml_parse_result xml_result {xml_doc.load_file("test.xml")};
 
-	//auto x = xml_result.description();
+		//auto x = xml_result.description();
+	}
+	
+	// MyTestLib lib test section
+    {
+    	auto res {my_test_lib::Math::Add(1, 2)};
+		UE_LOG(LogTemp, Warning, TEXT("You currently result is {%f}"), res);
+    }
 #endif
 }
 
