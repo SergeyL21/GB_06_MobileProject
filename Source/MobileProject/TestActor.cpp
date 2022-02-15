@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TestActor.h"
 
 #if PLATFORM_ANDROID
@@ -24,15 +23,16 @@ void ATestActor::BeginPlay()
 #if PLATFORM_ANDROID
 	// pugiXML lib test section
 	{
-		pugi::xml_document xml_doc{};
-		pugi::xml_parse_result xml_result {xml_doc.load_file("test.xml")};
-
-		//auto x = xml_result.description();
+		using namespace pugi;
+		xml_document xml_doc{};
+		xml_parse_result xml_result {xml_doc.load_file("test.xml")};
+		UE_LOG(LogTemp, Warning, TEXT("pugiXML lib description {%s}"), xml_result.description());
 	}
 	
 	// MyTestLib lib test section
     {
-    	auto res {my_test_lib::Math::Add(1, 2)};
+		using namespace my_test_lib;
+    	auto res {Math::Add(1, 2)};
 		UE_LOG(LogTemp, Warning, TEXT("You currently result is {%f}"), res);
     }
 #endif
