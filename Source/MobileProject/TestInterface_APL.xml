@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <trace enable="true"/>
+    <init>
+        <log text="AndroidAPITemplate init"/>
+    </init>
+
+    <androidManifestUpdates>
+        <addElements tag="application">
+
+            <activity android:name="com.isaratech.androidapi.AndroidAPITemplateActivity"
+                      android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                      android:label="@string/app_name" />
+
+        </addElements>
+    </androidManifestUpdates>
+    
+    <!-- optional additions to proguard -->
+    <proguardAdditions>
+        <insert>
+            <![CDATA[
+                -keepattributes Signature
+                -dontskipnonpubliclibraryclassmembers
+        
+                 -keepclassmembers class com.epicgames.ue4.GameActivity {
+                        public <methods>;
+                        public <fields>;
+                }
+            ]]>
+        </insert>
+    </proguardAdditions>
+
+    <resourceCopies>
+        <!-- Copy the generated resource file to be packaged -->
+    </resourceCopies>
+
+    <AARImports>
+    </AARImports>
+
+    <!-- optional additions to the GameActivity imports in GameActivity.java -->
+    <gameActivityImportAdditions>
+        <insert>
+            import java.util.HashSet;
+            import java.util.Arrays;
+            import android.text.TextUtils;
+            import android.graphics.BitmapFactory;
+            import android.os.Handler;
+            import android.widget.Toast;
+            import android.view.inputmethod.InputMethodManager;
+            import android.widget.LinearLayout;
+            import android.widget.EditText;
+            import android.widget.TextView;
+            import android.view.View;
+            import android.view.ViewGroup;
+            import android.text.TextWatcher;
+            import android.text.Editable;
+            import java.lang.String;
+        </insert>
+    </gameActivityImportAdditions>
+    
+    <!-- optional additions to the GameActivity class in GameActivity.java -->
+    <gameActivityClassAdditions>
+        <insert>
+            <![CDATA[    
+                // this function will be overrided in C++
+                private static native void onImageSelected(byte[] ImageBytes);
+
+                // open actual gallery on your device
+                public void AndroidThunkJava_OpenGallery() 
+                {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, 1);
+                }
+            ]]>
+        </insert>
+    </gameActivityClassAdditions>
+    
+    <!-- optional additions to GameActivity onActivityResult in GameActivity.java -->
+    <gameActivityOnActivityResultAdditions>
+        <insert>
+            <![CDATA[
+                @Override
+                protected void onActivityResult(int reqCode, int resultCode, Intent data) {
+                    super.onActivityResult(reqCode, resultCode, data);
+                
+                    if (resultCode == RESULT_OK)
+                    {
+                        try 
+                        {
+                            final Uri imageUri = data.getData();
+                            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byte[] byteArray = stream.toByteArray();
+                
+                            // call overrided method 
+                            onImageSelected(byteArray);
+                            selectedImage.recycle();
+                        } 
+                        catch (FileNotFoundException e) {}
+                    }
+                }
+            ]]>
+        </insert>
+    </gameActivityOnActivityResultAdditions>
+
+    <!-- optional additions to GameActivity onCreate metadata reading in GameActivity.java -->
+    <gameActivityReadMetadataAdditions>
+        <insert>
+        </insert>
+    </gameActivityReadMetadataAdditions>
+
+    <!-- optional additions to GameActivity onCreate in GameActivity.java -->
+    <gameActivityOnCreateAdditions>
+        <insert>
+        </insert>
+    </gameActivityOnCreateAdditions>
+
+    <!-- optional additions to GameActivity onDestroy in GameActivity.java -->
+    <gameActivityOnDestroyAdditions>
+        <insert>
+
+        </insert>
+    </gameActivityOnDestroyAdditions>
+
+
+    <!-- optional additions to GameActivity onStart in GameActivity.java -->
+    <gameActivityOnStartAdditions>
+        <insert>
+
+        </insert>
+    </gameActivityOnStartAdditions>
+
+    <!-- optional additions to GameActivity onStop in GameActivity.java -->
+    <gameActivityOnStopAdditions>
+        <insert>
+
+        </insert>
+    </gameActivityOnStopAdditions>
+    
+    <!-- optional additions to GameActivity onPause in GameActivity.java	-->
+    <gameActivityOnPauseAdditions>
+        <insert>
+
+
+        </insert>
+    </gameActivityOnPauseAdditions>
+
+    <!-- optional additions to GameActivity onResume in GameActivity.java	-->
+    <gameActivityOnResumeAdditions>
+        <insert>
+        </insert>
+    </gameActivityOnResumeAdditions>
+    
+    <!-- optional libraries to load in GameActivity.java before libUE4.so -->
+    <soLoadLibrary>
+        <!-- need this if plugin enabled and supported architecture, even if not packaged for GearVR -->
+    </soLoadLibrary>
+</root>
