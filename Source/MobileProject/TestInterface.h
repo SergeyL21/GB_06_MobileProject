@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -8,7 +8,7 @@
 
 // This class does not need to be modified.
 UINTERFACE()
-class UTestInterface : public UInterface
+class MOBILEPROJECT_API UTestInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -18,7 +18,7 @@ class UTestInterface : public UInterface
  */
 DECLARE_DELEGATE_OneParam(FOnImageSelected, TArray<uint8>);
 
-class MOBILEPROJECT_API ITestInterface
+class ITestInterface
 {
 	GENERATED_BODY()
 

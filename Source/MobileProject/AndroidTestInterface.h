@@ -7,11 +7,12 @@
 
 class MOBILEPROJECT_API AndroidTestInterface : public ITestInterface
 {
+
 #if PLATFORM_ANDROID
 public:
 	static struct _JNIEnv *ENV;
 #endif
-	
+
 public:
 	AndroidTestInterface();
 	

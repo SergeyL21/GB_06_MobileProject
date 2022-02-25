@@ -12,18 +12,12 @@ public class MobileProject : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", "CoreUObject", "Engine", "InputCore", "ImageWrapper"
+			"Core", "CoreUObject", "Engine", "InputCore", "AndroidPlugin", "ImageWrapper"
 		});
-		
+
 		if (Target.Platform == UnrealTargetPlatform.Android)
 		{
-			PrivateDependencyModuleNames.AddRange(new string[] { "Launch", "ApplicationCore" });
-			PrivateIncludePaths.AddRange(new string[] { "/Source/Runtime/Launch/Private" });
-			string pluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
-			AdditionalPropertiesForReceipt.Add(new ReceiptProperty(
-				"TestInterface", 
-				Path.Combine(pluginPath, "TestInterface_APL.xml")));
-
+			PrivateDependencyModuleNames.AddRange(new string[] { "Launch", "ApplicationCore" }); 
 		}
 	}
 }
